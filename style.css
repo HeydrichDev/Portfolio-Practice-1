@@ -555,6 +555,9 @@ h6 {
 /**Contact Form**/
 .contact-form {
   margin: 2rem auto;
+  box-shadow: 4px 4px 16px rgb(0, 0, 25);
+  padding: 1rem;
+  border-radius: 1rem;
 }
 
 .contact-form input {
