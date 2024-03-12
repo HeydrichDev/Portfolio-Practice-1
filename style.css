@@ -164,14 +164,64 @@ h6 {
 }
 
 .menu-btn {
-  background: var(--second-color);
-  border: 0;
+  position: fixed;
+  right: 1rem;
+  bottom: 1.3rem;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 999;
 }
 
-.menu-btn svg {
-  fill: var(--first-color);
-  border: 0;
-  outline: thin solid var(--first-color);
+.menu-btn-style {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.3rem;
+  width: 3rem;
+  height: 0.6rem;
+  border-radius: 1rem;
+  background-color: var(--first-color);
+  z-index: 998;
+
+  transform: translateY(-1.2rem);
+  transform-origin: top left;
+  transition: transform 0.4s ease-in-out, background-color 0.4s ease-in-out;
+}
+
+.menu-btn-style::before,
+.menu-btn-style::after {
+  position: absolute;
+  content: "";
+  width: 3rem;
+  height: 0.6rem;
+  background-color: var(--first-color);
+  border-radius: 1rem;
+  transition: transform 0.4s linear;
+}
+
+.menu-btn-style::before {
+  transform: rotate(0deg) translateY(1.2rem);
+}
+
+.menu-btn-style::after {
+  transform: rotate(0deg) translateY(-1.2rem);
+}
+
+.menu-btn:checked + .menu-btn-style {
+  background-color: transparent;
+}
+
+.menu-btn:checked + .menu-btn-style::after {
+  transform: rotate(45deg);
+}
+
+.menu-btn:checked + .menu-btn-style::before {
+  transform: rotate(-45deg);
+}
+
+.menu-btn:checked ~ .menu {
+  transform: translateY(0);
 }
 
 .menu {
@@ -186,9 +236,8 @@ h6 {
   text-align: center;
   padding: 1rem;
 
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s;
+  transition: opacity 0.5s, transform 0.4s ease-in-out;
+  transform: translateY(200%);
 }
 
 .menu.is-active {
@@ -202,37 +251,6 @@ h6 {
   margin: 1rem auto;
 }
 
-@media screen and (min-width: 1024px) {
-  .header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    padding: 0;
-  }
-
-  .menu {
-    position: static;
-    top: 0;
-    left: 0;
-
-    flex-direction: row;
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .menu-items {
-    margin-left: 1rem;
-  }
-
-  .menu-items:hover {
-    color: var(--white-color);
-    transition: 0.6s;
-  }
-
-  .menu-btn {
-    display: none;
-  }
-}
 /******About******/
 .about {
   width: 100%;
@@ -255,19 +273,6 @@ h6 {
   justify-content: space-evenly;
 }
 
-@media screen and (min-width: 1024px) {
-  .about {
-    display: grid;
-    grid-template-columns: repeat(3, 30%);
-    justify-content: space-between;
-    align-content: center;
-  }
-
-  .about .section-title {
-    grid-column: span 3;
-  }
-}
-
 /****Services******/
 .services {
   background: var(--gray-light-color);
@@ -283,29 +288,6 @@ h6 {
 .services-card {
   text-align: center;
   margin: 1rem;
-}
-
-@media screen and (min-width: 768px) {
-  .services-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .services .section-title {
-    grid-column: span 2;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .services-container {
-    grid-template-columns: repeat(3, 1fr);
-    justify-content: center;
-    align-content: center;
-  }
-
-  .services .section-title {
-    grid-column: span 3;
-  }
 }
 
 /******Portfolio*******/
@@ -341,19 +323,6 @@ h6 {
   padding: 0.5rem;
   border: medium solid var(--white-color);
   border-radius: 1rem;
-}
-
-@media screen and (min-width: 768px) {
-  .portfolio-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .portfolio-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /**Modal**/
@@ -419,17 +388,6 @@ h6 {
 
 .portfolio-modal-details b {
   color: var(--first-color);
-}
-
-@media screen and (min-width: 768px) {
-  .portfolio-modal {
-    max-width: 650px;
-    display: flex;
-  }
-
-  .portfolio-modal-info {
-    margin-left: 1rem;
-  }
 }
 
 /***Testimonies*****/
@@ -535,12 +493,6 @@ h6 {
   }
 }
 
-@media screen and (min-width: 768px) {
-  .carousel {
-    max-width: 1200px;
-  }
-}
-
 /****Contact*****/
 .contact-card {
   padding: 2rem;
@@ -587,6 +539,46 @@ h6 {
 }
 
 @media screen and (min-width: 768px) {
+}
+
+/****Footer****/
+.footer {
+  background: var(--third-color);
+  padding: 1rem;
+  margin-bottom: var(--min-height);
+  color: var(--white-color);
+  text-align: center;
+}
+
+/****Media Queries*****/
+@media screen and (min-width: 768px) {
+  .services-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services .section-title {
+    grid-column: span 2;
+  }
+
+  .portfolio-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portfolio-modal {
+    max-width: 650px;
+    display: flex;
+  }
+
+  .portfolio-modal-info {
+    margin-left: 1rem;
+  }
+
+  .carousel {
+    max-width: 1200px;
+  }
+
   .contact {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -605,21 +597,69 @@ h6 {
 }
 
 @media screen and (min-width: 1024px) {
+  .header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 0;
+  }
+
+  .menu-btn,
+  .menu-btn-style {
+    display: none;
+  }
+
+  .menu {
+    position: static;
+    top: 0;
+    left: 0;
+
+    flex-direction: row;
+    transform: none;
+  }
+
+  .menu-items {
+    margin-left: 1rem;
+  }
+
+  .menu-items:hover {
+    color: var(--white-color);
+    transition: 0.6s;
+  }
+
+  .menu-btn {
+    display: none;
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: repeat(3, 30%);
+    justify-content: space-between;
+    align-content: center;
+  }
+
+  .about .section-title {
+    grid-column: span 3;
+  }
+
+  .services-container {
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    align-content: center;
+  }
+
+  .services .section-title {
+    grid-column: span 3;
+  }
+
+  .portfolio-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .contact {
     grid-template-columns: repeat(4, 1fr);
   }
-}
 
-/****Footer****/
-.footer {
-  background: var(--third-color);
-  padding: 1rem;
-  margin-bottom: var(--min-height);
-  color: var(--white-color);
-  text-align: center;
-}
-
-@media screen and (min-width: 1024px) {
   .footer {
     margin: 0;
     text-align: center;
